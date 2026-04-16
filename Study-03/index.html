@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지식 퀴즈 - Quiz Master</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ==================== 시작 화면 ==================== -->
+    <div id="start-screen" class="screen">
+      <header class="app-header">
+        <h1>📝 Quiz Master</h1>
+        <p class="subtitle">지식을 테스트하고 실력을 키워보세요</p>
+      </header>
+
+      <div class="start-body">
+        <h2>카테고리를 선택하세요</h2>
+        <div id="category-grid" class="category-grid"></div>
+
+        <div class="start-action">
+          <p class="label">선택: <span id="selected-category">전체</span></p>
+          <button id="start-btn" class="btn btn-primary btn-lg btn-full" data-category="all">
+            게임 시작
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 퀴즈 화면 ==================== -->
+    <div id="quiz-screen" class="screen">
+      <div class="quiz-header">
+        <div class="quiz-meta">
+          <span id="q-category" class="badge badge-category">카테고리</span>
+          <span id="q-difficulty" class="badge difficulty-medium">보통</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar-bg">
+            <div id="progress-bar" class="progress-bar-fill" style="width: 0%"></div>
+          </div>
+          <span id="progress-text" class="progress-text">1 / 10</span>
+        </div>
+      </div>
+
+      <div class="quiz-body">
+        <p id="question-text" class="question-text"></p>
+
+        <ul id="options-list" class="options-list"></ul>
+
+        <div id="feedback-area" class="feedback-area hidden"></div>
+
+        <div class="next-btn-wrap">
+          <button id="next-btn" class="btn btn-primary hidden">다음 문제 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 결과 화면 ==================== -->
+    <div id="result-screen" class="screen">
+      <div class="result-header">
+        <div id="result-grade" class="result-grade">A</div>
+        <p id="result-message" class="result-message">훌륭합니다!</p>
+        <div class="result-stats">
+          <div class="stat-item">
+            <div id="result-score" class="stat-value">0</div>
+            <div class="stat-label">점수</div>
+          </div>
+          <div class="stat-item">
+            <div id="result-correct" class="stat-value">0/0</div>
+            <div class="stat-label">정답</div>
+          </div>
+          <div class="stat-item">
+            <div id="result-percentage" class="stat-value">0%</div>
+            <div class="stat-label">정답률</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <h3>틀린 문제</h3>
+        <ul id="wrong-list" class="wrong-list"></ul>
+
+        <div class="result-actions">
+          <button id="retry-btn" class="btn btn-primary">다시 하기</button>
+          <button id="home-btn" class="btn btn-secondary">처음으로</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

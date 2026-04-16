@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퀴즈 선생님 대시보드 — 2026-04-16</title>
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --bg: #f8f9ff;
+      --card: #ffffff;
+      --text: #1f2937;
+      --text-sub: #6b7280;
+      --border: #e5e7eb;
+      --radius: 16px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+    .wrapper { max-width: 960px; margin: 0 auto; }
+
+    .header { text-align: center; color: #fff; margin-bottom: 28px; }
+    .header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
+    .header p  { margin-top: 6px; opacity: 0.85; font-size: 0.95rem; }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title .badge {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .stat-box {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-box .value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-box .label {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th {
+      background: var(--bg);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    td { padding: 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9ff; }
+    .rank-medal { font-size: 1.2rem; }
+    .rank-num { color: var(--text-sub); font-weight: 600; font-size: 0.85rem; }
+    .student-name { font-weight: 700; }
+    .score-val { font-weight: 700; color: var(--primary); }
+
+    .cat-row { margin-bottom: 14px; }
+    .cat-row:last-child { margin-bottom: 0; }
+    .cat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .cat-name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+    .cat-meta { font-size: 0.82rem; color: var(--text-sub); }
+    .bar-track {
+      height: 10px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .bar-good    { background: linear-gradient(90deg, #10b981, #34d399); }
+    .bar-warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .bar-danger  { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .judge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .judge-good    { background: #d1fae5; color: #065f46; }
+    .judge-warning { background: #fef3c7; color: #92400e; }
+    .judge-danger  { background: #fee2e2; color: #991b1b; }
+
+    .matrix-table th, .matrix-table td { text-align: center; padding: 10px 8px; }
+    .matrix-table td:first-child { text-align: left; font-weight: 600; }
+    .cell-good    { color: #059669; font-weight: 600; }
+    .cell-warning { color: #d97706; font-weight: 600; }
+    .cell-danger  { color: #dc2626; font-weight: 600; }
+    .cell-none    { color: var(--text-sub); }
+
+    .compare-winner { color: var(--primary); font-weight: 700; }
+    .compare-winner::after { content: " ★"; font-size: 0.8em; }
+
+    .student-summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--bg);
+      margin-bottom: 10px;
+    }
+    .student-summary:last-child { margin-bottom: 0; }
+    .stu-name { font-weight: 700; font-size: 1rem; color: var(--text); min-width: 64px; }
+    .stu-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .tag-score  { background: #ede9fe; color: #5b21b6; }
+    .tag-acc    { background: #d1fae5; color: #065f46; }
+    .tag-strong { background: #fef3c7; color: #92400e; }
+    .tag-weak   { background: #fee2e2; color: #991b1b; }
+    .tag-grow   { background: #dbeafe; color: #1e40af; }
+
+    .alert-box {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: #92400e;
+      margin-top: 16px;
+    }
+    .alert-box strong { display: block; margin-bottom: 4px; }
+
+    .footer {
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.8rem;
+      margin-top: 16px;
+      padding-bottom: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.4rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      table { font-size: 0.8rem; }
+      th, td { padding: 8px 6px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <h1>퀴즈 선생님 대시보드</h1>
+    <p>기준 일시: 2026-04-16 &nbsp;|&nbsp; 등록 학생: 5명 &nbsp;|&nbsp; 총 게임: 11회</p>
+  </div>
+
+  <!-- PHASE 1: 클래스 요약 통계 -->
+  <div class="card">
+    <div class="card-title">
+      <span>클래스 현황 스냅샷</span>
+      <span class="badge">PHASE 1</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="value">5</div>
+        <div class="label">등록 학생</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">11</div>
+        <div class="label">총 게임 횟수</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">135</div>
+        <div class="label">클래스 최고점</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">93.2</div>
+        <div class="label">클래스 평균점</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">70.0%</div>
+        <div class="label">평균 정답률</div>
+      </div>
+    </div>
+
+    <!-- 학생 목록 -->
+    <table style="margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>학생명</th>
+          <th>기록</th>
+          <th>최고점</th>
+          <th>최근 플레이</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td class="student-name">김민준</td>
+          <td>3회</td><td class="score-val">135점</td><td>2026-04-15</td>
+        </tr>
+        <tr>
+          <td>2</td><td class="student-name">이수아</td>
+          <td>2회</td><td class="score-val">108점</td><td>2026-04-14</td>
+        </tr>
+        <tr>
+          <td>3</td><td class="student-name">박지호</td>
+          <td>2회</td><td class="score-val">85점</td><td>2026-04-15</td>
+        </tr>
+        <tr>
+          <td>4</td><td class="student-name">최유진</td>
+          <td>1회</td><td class="score-val">55점</td><td>2026-04-13</td>
+        </tr>
+        <tr>
+          <td>5</td><td class="student-name">정하은</td>
+          <td>3회</td><td class="score-val">105점</td><td>2026-04-16</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PHASE 2: 점수 랭킹 -->
+  <div class="card">
+    <div class="card-title">
+      <span>점수 랭킹</span>
+      <span class="badge">PHASE 2</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>순위</th><th>학생명</th><th>최고점</th>
+          <th>평균점</th><th>정답률</th><th>최장연속</th><th>플레이</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank-medal">🥇</span></td>
+          <td class="student-name">김민준</td>
+          <td class="score-val">135점</td>
+          <td>121.7점</td><td>83.3%</td><td>6회</td><td>3회</td>
+        </tr>
+        <tr>
+          <td><span class="rank-medal">🥈</span></td>
+          <td class="student-name">이수아</td>
+          <td class="score-val">108점</td>
+          <td>101.5점</td><td>75.0%</td><td>5회</td><td>2회</td>
+        </tr>
+        <tr>
+          <td><span class="rank-medal">🥉</span></td>
+          <td class="student-name">정하은</td>
+          <td class="score-val">105점</td>
+          <td>81.7점</td><td>63.3%</td><td>5회</td><td>3회</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">4위</span></td>
+          <td class="student-name">박지호</td>
+          <td class="score-val">85점</td>
+          <td>78.5점</td><td>65.0%</td><td>3회</td><td>2회</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">5위</span></td>
+          <td class="student-name">최유진</td>
+          <td class="score-val">55점</td>
+          <td>55.0점</td><td>50.0%</td><td>2회</td><td>1회</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PHASE 3: 취약 영역 분석 -->
+  <div class="card">
+    <div class="card-title">
+      <span>취약 영역 클래스 분석</span>
+      <span class="badge">PHASE 3</span>
+    </div>
+
+    <div class="cat-row">
+      <div class="cat-header">
+        <span class="cat-name">한국사</span>
+        <span class="cat-meta">62.5% &nbsp;<span class="judge judge-warning">주의</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill bar-warning" style="width:62.5%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-header">
+        <span class="cat-name">세계지리</span>
+        <span class="cat-meta">60.9% &nbsp;<span class="judge judge-warning">주의</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill bar-warning" style="width:60.9%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-header">
+        <span class="cat-name">과학</span>
+        <span class="cat-meta">82.7% &nbsp;<span class="judge judge-good">양호</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill bar-good" style="width:82.7%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-header">
+        <span class="cat-name">예술과 문화</span>
+        <span class="cat-meta">65.0% &nbsp;<span class="judge judge-warning">주의</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill bar-warning" style="width:65%"></div></div>
+    </div>
+
+    <table class="matrix-table" style="margin-top:24px;">
+      <thead>
+        <tr>
+          <th style="text-align:left">학생명</th>
+          <th>한국사</th><th>세계지리</th><th>과학</th><th>예술과 문화</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>김민준</td>
+          <td class="cell-good">✅ 100%</td>
+          <td class="cell-good">✅ 77.8%</td>
+          <td class="cell-good">✅ 100%</td>
+          <td class="cell-warning">⚠️ 50%</td>
+        </tr>
+        <tr>
+          <td>이수아</td>
+          <td class="cell-warning">⚠️ 50%</td>
+          <td class="cell-warning">⚠️ 50%</td>
+          <td class="cell-good">✅ 100%</td>
+          <td class="cell-good">✅ 100%</td>
+        </tr>
+        <tr>
+          <td>박지호</td>
+          <td class="cell-warning">⚠️ 66.7%</td>
+          <td class="cell-warning">⚠️ 66.7%</td>
+          <td class="cell-good">✅ 100%</td>
+          <td class="cell-danger">❌ 25%</td>
+        </tr>
+        <tr>
+          <td>최유진</td>
+          <td class="cell-danger">❌ 33.3%</td>
+          <td class="cell-warning">⚠️ 50%</td>
+          <td class="cell-danger">❌ 33.3%</td>
+          <td class="cell-good">✅ 100%</td>
+        </tr>
+        <tr>
+          <td>정하은</td>
+          <td class="cell-warning">⚠️ 62.5%</td>
+          <td class="cell-warning">⚠️ 60%</td>
+          <td class="cell-good">✅ 80%</td>
+          <td class="cell-warning">⚠️ 50%</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:#6b7280;margin-top:10px;">
+      ✅ 양호(70%↑) &nbsp; ⚠️ 주의(50~70%) &nbsp; ❌ 취약(50%↓)
+    </p>
+
+    <div class="alert-box">
+      <strong>📌 클래스 보충 학습 권장 우선순위</strong>
+      1순위: 세계지리 (평균 60.9% — 전원 주의/취약)<br>
+      2순위: 한국사 (평균 62.5% — 취약 1명, 주의 3명)<br>
+      3순위: 예술과 문화 (평균 65.0% — 취약 1명, 주의 2명)
+    </div>
+  </div>
+
+  <!-- PHASE 4: 학생 간 비교 -->
+  <div class="card">
+    <div class="card-title">
+      <span>학생 간 비교 (상위 ↔ 하위)</span>
+      <span class="badge">PHASE 4</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>김민준 (1위)</th>
+          <th>정하은 (중간)</th>
+          <th>최유진 (최하위)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>최고 점수</td>
+          <td class="compare-winner">135점</td>
+          <td>105점</td>
+          <td>55점</td>
+        </tr>
+        <tr>
+          <td>평균 정답률</td>
+          <td class="compare-winner">83.3%</td>
+          <td>63.3%</td>
+          <td>50.0%</td>
+        </tr>
+        <tr>
+          <td>최장 연속 정답</td>
+          <td class="compare-winner">6회</td>
+          <td>5회</td>
+          <td>2회</td>
+        </tr>
+        <tr>
+          <td>강점 카테고리</td>
+          <td>한국사 · 과학</td>
+          <td>과학</td>
+          <td>예술과 문화</td>
+        </tr>
+        <tr>
+          <td>약점 카테고리</td>
+          <td>예술과 문화</td>
+          <td>예술과 문화</td>
+          <td>한국사 · 과학</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert-box" style="background:#fef2f2;border-color:#fecaca;color:#991b1b;">
+      <strong>⚠️ 점수 격차 분석</strong>
+      최고 ↔ 최하 점수 차: 80점 &nbsp;|&nbsp; 정답률 차: 33.3%p<br>
+      격차 평가: <strong>격차 큼</strong> — 최유진 학생 집중 지도 필요
+    </div>
+  </div>
+
+  <!-- PHASE 5: 학생별 1줄 요약 -->
+  <div class="card">
+    <div class="card-title">
+      <span>학생별 1줄 요약</span>
+      <span class="badge">PHASE 5</span>
+    </div>
+
+    <div class="student-summary">
+      <span class="stu-name">김민준</span>
+      <span class="stu-tag tag-score">최고 135점</span>
+      <span class="stu-tag tag-acc">정답률 83.3%</span>
+      <span class="stu-tag tag-strong">강점: 한국사·과학</span>
+      <span class="stu-tag tag-weak">약점: 예술과 문화</span>
+    </div>
+    <div class="student-summary">
+      <span class="stu-name">이수아</span>
+      <span class="stu-tag tag-score">최고 108점</span>
+      <span class="stu-tag tag-acc">정답률 75.0%</span>
+      <span class="stu-tag tag-strong">강점: 과학·예술과 문화</span>
+      <span class="stu-tag tag-weak">약점: 한국사</span>
+    </div>
+    <div class="student-summary">
+      <span class="stu-name">정하은</span>
+      <span class="stu-tag tag-score">최고 105점</span>
+      <span class="stu-tag tag-acc">정답률 63.3%</span>
+      <span class="stu-tag tag-strong">강점: 과학</span>
+      <span class="stu-tag tag-weak">약점: 예술과 문화</span>
+      <span class="stu-tag tag-grow">성장 중 +43점</span>
+    </div>
+    <div class="student-summary">
+      <span class="stu-name">박지호</span>
+      <span class="stu-tag tag-score">최고 85점</span>
+      <span class="stu-tag tag-acc">정답률 65.0%</span>
+      <span class="stu-tag tag-strong">강점: 과학</span>
+      <span class="stu-tag tag-weak">약점: 예술과 문화</span>
+    </div>
+    <div class="student-summary">
+      <span class="stu-name">최유진</span>
+      <span class="stu-tag tag-score">최고 55점</span>
+      <span class="stu-tag tag-acc">정답률 50.0%</span>
+      <span class="stu-tag tag-strong">강점: 예술과 문화</span>
+      <span class="stu-tag tag-weak">약점: 한국사·과학</span>
+    </div>
+  </div>
+
+</div><!-- /.wrapper -->
+
+<div class="footer">
+  퀴즈 선생님 대시보드 &nbsp;|&nbsp; 생성 일시: 2026-04-16 &nbsp;|&nbsp; VibeCoding Study-03
+</div>
+
+</body>
+</html>

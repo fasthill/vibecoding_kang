@@ -1,0 +1,54 @@
+{
+  "name": "정하은",
+  "registeredAt": "2026-04-09",
+  "scores": [
+    {
+      "date": "2026-04-09",
+      "totalScore": 62,
+      "correctAnswers": 5,
+      "totalQuestions": 10,
+      "accuracy": 50,
+      "avgTime": 14.8,
+      "longestStreak": 2,
+      "mode": "category",
+      "selectedCategory": "한국사",
+      "categoryScores": {
+        "한국사": {"correct": 5, "total": 10}
+      }
+    },
+    {
+      "date": "2026-04-12",
+      "totalScore": 78,
+      "correctAnswers": 6,
+      "totalQuestions": 10,
+      "accuracy": 60,
+      "avgTime": 12.9,
+      "longestStreak": 3,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 2, "total": 3},
+        "세계지리": {"correct": 1, "total": 2},
+        "과학": {"correct": 2, "total": 3},
+        "예술과 문화": {"correct": 1, "total": 2}
+      }
+    },
+    {
+      "date": "2026-04-16",
+      "totalScore": 105,
+      "correctAnswers": 8,
+      "totalQuestions": 10,
+      "accuracy": 80,
+      "avgTime": 9.7,
+      "longestStreak": 5,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 3, "total": 3},
+        "세계지리": {"correct": 2, "total": 3},
+        "과학": {"correct": 2, "total": 2},
+        "예술과 문화": {"correct": 1, "total": 2}
+      }
+    }
+  ]
+}

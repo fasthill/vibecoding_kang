@@ -1,0 +1,23 @@
+{
+  "name": "최유진",
+  "registeredAt": "2026-04-13",
+  "scores": [
+    {
+      "date": "2026-04-13",
+      "totalScore": 55,
+      "correctAnswers": 5,
+      "totalQuestions": 10,
+      "accuracy": 50,
+      "avgTime": 16.4,
+      "longestStreak": 2,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 1, "total": 3},
+        "세계지리": {"correct": 1, "total": 2},
+        "과학": {"correct": 1, "total": 3},
+        "예술과 문화": {"correct": 2, "total": 2}
+      }
+    }
+  ]
+}

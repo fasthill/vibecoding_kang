@@ -1,0 +1,40 @@
+{
+  "name": "박지호",
+  "registeredAt": "2026-04-12",
+  "scores": [
+    {
+      "date": "2026-04-12",
+      "totalScore": 72,
+      "correctAnswers": 6,
+      "totalQuestions": 10,
+      "accuracy": 60,
+      "avgTime": 13.6,
+      "longestStreak": 2,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 2, "total": 3},
+        "세계지리": {"correct": 2, "total": 3},
+        "과학": {"correct": 2, "total": 2},
+        "예술과 문화": {"correct": 0, "total": 2}
+      }
+    },
+    {
+      "date": "2026-04-15",
+      "totalScore": 85,
+      "correctAnswers": 7,
+      "totalQuestions": 10,
+      "accuracy": 70,
+      "avgTime": 12.2,
+      "longestStreak": 3,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 2, "total": 3},
+        "세계지리": {"correct": 2, "total": 3},
+        "과학": {"correct": 2, "total": 2},
+        "예술과 문화": {"correct": 1, "total": 2}
+      }
+    }
+  ]
+}

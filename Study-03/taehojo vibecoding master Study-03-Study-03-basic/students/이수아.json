@@ -1,0 +1,40 @@
+{
+  "name": "이수아",
+  "registeredAt": "2026-04-11",
+  "scores": [
+    {
+      "date": "2026-04-11",
+      "totalScore": 95,
+      "correctAnswers": 7,
+      "totalQuestions": 10,
+      "accuracy": 70,
+      "avgTime": 11.3,
+      "longestStreak": 3,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 1, "total": 3},
+        "세계지리": {"correct": 1, "total": 2},
+        "과학": {"correct": 3, "total": 3},
+        "예술과 문화": {"correct": 2, "total": 2}
+      }
+    },
+    {
+      "date": "2026-04-14",
+      "totalScore": 108,
+      "correctAnswers": 8,
+      "totalQuestions": 10,
+      "accuracy": 80,
+      "avgTime": 10.1,
+      "longestStreak": 5,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 2, "total": 3},
+        "세계지리": {"correct": 1, "total": 2},
+        "과학": {"correct": 3, "total": 3},
+        "예술과 문화": {"correct": 2, "total": 2}
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "김민준",
+  "registeredAt": "2026-04-10",
+  "scores": [
+    {
+      "date": "2026-04-10",
+      "totalScore": 112,
+      "correctAnswers": 8,
+      "totalQuestions": 10,
+      "accuracy": 80,
+      "avgTime": 9.2,
+      "longestStreak": 4,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 3, "total": 3},
+        "세계지리": {"correct": 2, "total": 3},
+        "과학": {"correct": 2, "total": 2},
+        "예술과 문화": {"correct": 1, "total": 2}
+      }
+    },
+    {
+      "date": "2026-04-13",
+      "totalScore": 135,
+      "correctAnswers": 9,
+      "totalQuestions": 10,
+      "accuracy": 90,
+      "avgTime": 7.8,
+      "longestStreak": 6,
+      "mode": "full",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 3, "total": 3},
+        "세계지리": {"correct": 3, "total": 3},
+        "과학": {"correct": 2, "total": 2},
+        "예술과 문화": {"correct": 1, "total": 2}
+      }
+    },
+    {
+      "date": "2026-04-15",
+      "totalScore": 118,
+      "correctAnswers": 8,
+      "totalQuestions": 10,
+      "accuracy": 80,
+      "avgTime": 8.5,
+      "longestStreak": 5,
+      "mode": "speed",
+      "selectedCategory": null,
+      "categoryScores": {
+        "한국사": {"correct": 3, "total": 3},
+        "세계지리": {"correct": 2, "total": 3},
+        "과학": {"correct": 2, "total": 2},
+        "예술과 문화": {"correct": 1, "total": 2}
+      }
+    }
+  ]
+}
